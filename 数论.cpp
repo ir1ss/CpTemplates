@@ -35,5 +35,29 @@ void get_primes(int n) {
       st[primes[j] * i] = true;
       if (i % primes[j] == 0) break;
     }
+  }s
+}
+
+//线性筛求欧拉函数
+int n, primes[N], cnt;
+int phi[N];
+bool st[N];
+
+void get_eulers() {
+  phi[1] = 1;
+  for (int i = 2; i <= n; i++) {
+    if (!st[i]) {
+      phi[i] = i - 1;
+      primes[cnt++] = i;
+    }
+    for (int j = 0; primes[j] <= n / i; j++) {
+      st[primes[j] * i] = true;
+      if (i % primes[j] == 0) {
+        phi[primes[j] * i] = phi[i] * primes[j];
+        break;
+      } else {
+        phi[primes[j] * i] = phi[i] * (primes[j] - 1);
+      }
+    }
   }
 }
