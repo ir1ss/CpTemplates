@@ -42,7 +42,7 @@ void get_primes(int n) {
 int n, primes[N], cnt;
 int phi[N];
 bool st[N];
-
+ 
 void get_eulers() {
   phi[1] = 1;
   for (int i = 2; i <= n; i++) {
