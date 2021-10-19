@@ -42,7 +42,7 @@ void get_primes(int n) {
 int n, primes[N], cnt;
 int phi[N];
 bool st[N];
- 
+
 void get_eulers() {
   phi[1] = 1;
   for (int i = 2; i <= n; i++) {
@@ -60,4 +60,46 @@ void get_eulers() {
       }
     }
   }
+}
+
+// 高斯消元
+// 返回0：有唯一解
+// 返回1：有无穷解
+// 返回2: 无解
+int n;
+double a[N][N];
+
+int gauss() {
+  int r, c;
+  for (r = 0, c = 0; c < n; c++) {
+    int t = r;
+    for (int i = r + 1; i < n; i++) {
+      if (fabs(a[i][c]) > fabs(a[t][c])) {
+        t = i;
+      }
+    }
+    if (fabs(a[t][c]) < eps) continue;
+    for (int i = c; i <= n; i++) swap(a[r][i], a[t][i]);
+    for (int i = n; i >= c; i--) a[r][i] /= a[r][c];
+    for (int i = r + 1; i < n; i++) {
+      if (fabs(a[i][c]) > eps) {
+        for (int j = n; j >= c; j--) {
+          a[i][j] -= a[i][c] * a[r][j];
+        }
+      }
+    }
+    r++;
+  }
+  if (r < n) {
+    for (int i = r; i < n; i++) {
+      if (a[i][n] > eps) return 2;
+    }
+    return 1;
+  }
+  for (int i = n - 1; i >= 0; i--) {
+    for (int j = i + 1; j < n; j++) {
+      a[i][n] -= a[i][j] * a[j][n];
+    }
+  }
+  return 0;
 }
