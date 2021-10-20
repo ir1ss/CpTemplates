@@ -103,3 +103,41 @@ int gauss() {
   }
   return 0;
 }
+
+// 快速幂
+int qmi(int a, int b) {
+  int ret = 1 % MOD;
+  while (b) {
+    if (b & 1) {
+      ret = 1ll * ret * a % MOD;
+    }
+    a = 1ll * a * a % MOD;
+    b >>= 1;
+  }
+  return ret;
+}
+
+// 递推求组合数
+int n;
+int c[N][N];
+
+void init() {
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j <= i; j++) {
+      if (!j) c[i][j] = 1;
+      else c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
+    }
+  }
+}
+
+// 逆元求组合数, c[a][b] = (1ll * fact[a] * infact[b] % MOD) * infact[a - b] % MOD;
+int n;
+int fact[N], infact[N];
+
+void init() {
+  fact[0] = infact[0] = 1;
+  for (int i = 1; i < N; i++) {
+    fact[i] = 1ll * i * fact[i - 1] % MOD;
+    infact[i] = 1ll * qmi(i, MOD - 2) * infact[i - 1] % MOD;
+  }
+}
